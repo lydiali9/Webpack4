@@ -1,8 +1,21 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css为link标签 并且注入到build/index.html中
+let OptimizeCss = require('optimize-css-assets-webpack-plugin');
+let UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    mode: "development", // 模式
+    optimization: { // 优化项
+        minimizer: [
+            new UglifyJsPlugin({ // 压缩JS
+                cache: true,
+                parallel: true, // 是否处罚多个
+                sourceMap: true // 比如ES6压缩成ES5 后用于源码映射
+            }),
+            new OptimizeCss() // 压缩css
+        ]
+    },
+    mode: "production", // 模式
     entry: './src/index.js', // 入口
     output: {
         filename: "bundle.[hash:5].js", // 打包后的文件名
@@ -17,6 +30,9 @@ module.exports = {
                 collapseWhitespace: true // html打包为一行
             },
             hash: true
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'main.css'
         })
     ],
     module: { // 模块
@@ -24,30 +40,17 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    // style-loader用于将css插入到head的body中
-                    // loader单一
-                    // 多个loader需要一个数组
-                    // loader是需要顺序的， 默认是从右向左执行
-                    {
-                        loader: "style-loader",
-                        // options: {
-                        //     insertAt: 'top' // 指定自定义的css标签插入到 webpack打包后的css文件的上面，提高优先级
-                        // }
-                    },
-                    'css-loader'
+                    MiniCssExtractPlugin.loader, // 创建link标签
+                    'css-loader',
+                    'postcss-loader'
                 ]
             },
             {
                 test: /\.less$/,
                 use: [
-                    // style-loader用于将css插入到head的body中
-                    // loader单一
-                    // 多个loader需要一个数组
-                    // loader是需要顺序的， 默认是从右向左执行
-                    {
-                        loader: "style-loader",
-                    },
+                    MiniCssExtractPlugin.loader, // 创建link标签
                     'css-loader', // @import 路径解析
+                    'postcss-loader',
                     'less-loader' // 把less -> css
                 ]
             }
