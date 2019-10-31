@@ -5,7 +5,7 @@ class B {
 
 }
 
-function * gen() {
+function * gen(params) {
     yield 1;
 }
 

@@ -3,6 +3,7 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css为link标签 并且注入到build/index.html中
 let OptimizeCss = require('optimize-css-assets-webpack-plugin');
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+let webpack = require('webpack');
 
 module.exports = {
     optimization: { // 优化项
@@ -33,33 +34,34 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'main.css'
-        })
+        }),
+        // new webpack.ProvidePlugin({ // 在每个模块中都注入$符号
+        //     $: 'jquery'
+        // })
     ],
     module: { // 模块
         rules: [ // 规则 css-loader 解析@import这种语法的
+            // { // loader 默认从右向左执行 向下向上执行
+            //     test: /\.js$/,
+            //     use: {
+            //         loader: 'eslint-loader',
+            //         options: {
+            //             'enforce': 'pre' // pre 向下向上执行强制优先执行在普通loader之前  post在普通loader之后执行
+            //         }
+            //     },
+            // },
             {
-                test: /\.js$/,
+                test: require.resolve('jquery'),
+                use: 'expose-loader?$'
+            },
+            {
+                test: /\.js$/, // 普通loader
                 use: {
                     loader: "babel-loader",
                     options: { // 用babel-loader 需要把ES6->ES5 使用@babel/preset-env插件
                         presets: [
                             '@babel/preset-env'
                         ],
-                        // plugins: [// // 需要 @babel/plugin-proposal-class-properties插件去编译class语法
-                        //     [
-                        //         '@babel/plugin-proposal-class-properties',
-                        //         {
-                        //             'legacy': true
-                        //         }
-                        //     ],
-                        //     [
-                        //         '@babel/plugin-proposal-class-properties',
-                        //         {
-                        //             'loose': true
-                        //         }
-                        //     ]
-                        // ]
-
                         "plugins": [
                             ["@babel/plugin-proposal-decorators", {"legacy": true}], // 属性装置器
                             ["@babel/plugin-proposal-class-properties", {"loose": true}], // 类装置器
