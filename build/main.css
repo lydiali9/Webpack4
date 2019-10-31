@@ -1,0 +1,12 @@
+body {
+    background: blue;
+}
+body {
+    background: aqua;
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+body div {
+  border: 1px solid #ddaadd;
+}
+

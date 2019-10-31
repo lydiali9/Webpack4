@@ -61,11 +61,16 @@ module.exports = {
                         // ]
 
                         "plugins": [
-                            ["@babel/plugin-proposal-decorators", { "legacy": true }], // 属性装置器
-                            ["@babel/plugin-proposal-class-properties", { "loose" : true }] // 类装置器
+                            ["@babel/plugin-proposal-decorators", {"legacy": true}], // 属性装置器
+                            ["@babel/plugin-proposal-class-properties", {"loose": true}], // 类装置器
+                            '@babel/plugin-transform-runtime' //babel 编译时只转换语法，几乎可以编译所有时新的 JavaScript 语法，但并不会转化BOM里面不兼容的API
+                            // 比如 Promise,Set,Symbol,Array.from,async 等等的一些API
+                            // 等等的一些API这时候就需要 polyfill 来转转化这些API
                         ]
                     }
-                }
+                },
+                include: path.resolve(__dirname, 'src'),
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
