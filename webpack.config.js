@@ -15,7 +15,7 @@ module.exports = {
             new OptimizeCss() // 压缩css
         ]
     },
-    mode: "production", // 模式
+    mode: "development", // 模式
     entry: './src/index.js', // 入口
     output: {
         filename: "bundle.[hash:5].js", // 打包后的文件名
@@ -37,6 +37,36 @@ module.exports = {
     ],
     module: { // 模块
         rules: [ // 规则 css-loader 解析@import这种语法的
+            {
+                test: /\.js$/,
+                use: {
+                    loader: "babel-loader",
+                    options: { // 用babel-loader 需要把ES6->ES5 使用@babel/preset-env插件
+                        presets: [
+                            '@babel/preset-env'
+                        ],
+                        // plugins: [// // 需要 @babel/plugin-proposal-class-properties插件去编译class语法
+                        //     [
+                        //         '@babel/plugin-proposal-class-properties',
+                        //         {
+                        //             'legacy': true
+                        //         }
+                        //     ],
+                        //     [
+                        //         '@babel/plugin-proposal-class-properties',
+                        //         {
+                        //             'loose': true
+                        //         }
+                        //     ]
+                        // ]
+
+                        "plugins": [
+                            ["@babel/plugin-proposal-decorators", { "legacy": true }], // 属性装置器
+                            ["@babel/plugin-proposal-class-properties", { "loose" : true }] // 类装置器
+                        ]
+                    }
+                }
+            },
             {
                 test: /\.css$/,
                 use: [
