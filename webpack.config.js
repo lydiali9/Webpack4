@@ -39,6 +39,9 @@ module.exports = {
         //     $: 'jquery'
         // })
     ],
+    externals: {
+        'jquery': 'jQuery'
+    },
     module: { // 模块
         rules: [ // 规则 css-loader 解析@import这种语法的
             // { // loader 默认从右向左执行 向下向上执行
@@ -50,10 +53,10 @@ module.exports = {
             //         }
             //     },
             // },
-            {
-                test: require.resolve('jquery'),
-                use: 'expose-loader?$'
-            },
+            // {
+            //     test: require.resolve('jquery'),
+            //     use: 'expose-loader?$'
+            // },
             {
                 test: /\.js$/, // 普通loader
                 use: {
