@@ -58,6 +58,21 @@ module.exports = {
             //     use: 'expose-loader?$'
             // },
             {
+                test: /\.html$/,
+                use: 'html-withimg-loader'
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: {
+                    loader: "url-loader",
+                    options: {
+                        limit: 200 * 1024
+                    }
+                },
+                // 做一个限制，当我们的图片小于多少K的时候 用base64来转换
+                // 否则用file-loader产生真实的图片
+            },
+            {
                 test: /\.js$/, // 普通loader
                 use: {
                     loader: "babel-loader",
