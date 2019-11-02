@@ -1,16 +1,15 @@
 // webpack打包图片
-// 1. 在js中创建图片来引入
+// 1. 在js中创建图片来引入  ----- 第一种方式失败，始终没成功
 // file-loader 默认会在内部生成一张图片 到build目录下， 把生成的图片的名字返回回来
-// import logo from './logo.PNG';
-import './index.css';
-// let logo = require('./logo.PNG');
-debugger
+import logo from './logo.PNG';
 // let logo = require('./logo.PNG'); // 把图片引入，返回的结果是一个新的图片地址
 // let img = new Image();
 // img.src = logo;
 // document.body.appendChild(img);
 // 2. 在css中引入background('url')
+import './index.css';
 // 3. <img src="" alt="" />
+// index.html中
 
 // import $ from 'jquery'; //console.log(window.$); // undefine 每次打包都会被引入
 // import $ from 'expose-loader?$!jquery'; // console.log(window.$);  == console.log($); // 或者可以配置到modules.rules中

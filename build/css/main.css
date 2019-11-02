@@ -1,0 +1,9 @@
+body {
+    background: blue;
+}
+body {
+    background: aqua;
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+    background: url(www.lynnli.com.cn/a8f88ae188e5a5452c3fc1847e799d69.png);
+}
